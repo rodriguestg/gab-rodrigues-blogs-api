@@ -1,5 +1,6 @@
 const { usersServices } = require('../services');
 const { mapError } = require('../utils/errorMap.js');
+const { tokenGenerate } = require('../utils/jwt.utils');
 
 // const getAll = async (_req, res) => {
 //   try {
@@ -45,7 +46,8 @@ const createUser = async (req, res) => {
     const { displayName, email, password, image } = req.body;
     const newUser = await usersServices.createUser(displayName, email, password, image);
 
-    return res.status(201).json(newUser);
+    const token = tokenGenerate(newUser.id);
+    return res.status(201).json({ token });
   } catch (e) {
     if (e.errors[0].message === 'users.email must be unique') {
        return res.status(mapError('EMAIL_DUPLICATED')).json({ message: 'User already registered' });
