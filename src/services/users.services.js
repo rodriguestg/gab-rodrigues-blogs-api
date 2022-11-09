@@ -9,11 +9,15 @@ const getAll = async () => {
   return users;
 };
 
-// const getById = async (id) => {
-//   const user = await User.findByPk(id);
-
-//   return user;
-// };
+const getById = async (id) => {
+  const getUser = await User.findByPk(id);
+  if (!getUser) return undefined;
+    
+  const user = {
+    id: getUser.id, displayName: getUser.displayName, email: getUser.email, image: getUser.image };
+  
+  return user;
+};
 
 // const getByIdAndEmail = async (id, email) => {
 //   const user = await User.findOne({ where: { id, email } });
@@ -46,7 +50,7 @@ const createUser = async (displayName, email, password, image) => {
 
 module.exports = {
   getAll,
-  // getById,
+  getById,
   // getByIdAndEmail,
   createUser,
   // updateUser,
