@@ -1,5 +1,6 @@
 const { usersServices } = require('../services');
 const { mapError } = require('../utils/errorMap.js');
+const idJwtUtils = require('../utils/idJwt.utils');
 const { tokenGenerate } = require('../utils/jwt.utils');
 
 const getAll = async (_req, res) => {
@@ -69,17 +70,17 @@ const createUser = async (req, res) => {
 //   }
 // };
 
-// const deleteUser = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     await usersServices.deleteUser(id);
+const deleteUser = async (req, res) => {
+  const token = req.header('Authorization');
+  const id = idJwtUtils(token);
+  try {
+    await usersServices.deleteUser(id);
 
-//     return res.status(200).json({ message: 'Usuário excluído com sucesso!' });
-//   } catch (e) {
-//     console.log(e.message);
-//     res.status(500).json({ message: error500Message });
-//   }
-// };
+    return res.status(204).end();
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
 
 module.exports = {
   getAll,
@@ -87,5 +88,5 @@ module.exports = {
   // getByIdAndEmail,
   createUser,
   // updateUser,
-  // deleteUser,
+  deleteUser,
 };

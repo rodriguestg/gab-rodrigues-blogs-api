@@ -40,13 +40,13 @@ const createUser = async (displayName, email, password, image) => {
 //   return updatedUser;
 // };
 
-// const deleteUser = async (id) => {
-//   const user = await User.destroy(
-//     { where: { id } },
-//   );
+const deleteUser = async (id) => {
+  const user = await User.destroy(
+    { where: { id } },
+  );
 
-//   return user;
-// };
+  return user;
+};
 
 module.exports = {
   getAll,
@@ -54,5 +54,5 @@ module.exports = {
   // getByIdAndEmail,
   createUser,
   // updateUser,
-  // deleteUser,
+  deleteUser,
 };
