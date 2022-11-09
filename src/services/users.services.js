@@ -1,11 +1,11 @@
 const { User } = require('../models');
 
-const getAll = async () => {
-  // console.log(User);
-  const users = await User.findAll();
+// const getAll = async () => {
+//   // console.log(User);
+//   const users = await User.findAll();
 
-  return users;
-};
+//   return users;
+// };
 
 // const getById = async (id) => {
 //   const user = await User.findByPk(id);
@@ -19,11 +19,11 @@ const getAll = async () => {
 //   return user;
 // };
 
-// const createUser = async (fullName, email) => {
-//   const newUser = await User.create({ fullName, email });
+const createUser = async (displayName, email, password, image) => {
+  const newUser = await User.create({ displayName, email, password, image });
 
-//   return newUser;
-// };
+  return newUser;
+};
 
 // const updateUser = async (id, displayName, email, image) => {
 //   const [updatedUser] = await User.update(
@@ -43,10 +43,10 @@ const getAll = async () => {
 // };
 
 module.exports = {
-  getAll,
+  // getAll,
   // getById,
   // getByIdAndEmail,
-  // createUser,
+  createUser,
   // updateUser,
   // deleteUser,
 };

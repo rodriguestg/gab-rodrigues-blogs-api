@@ -1,17 +1,15 @@
 const { usersServices } = require('../services');
-// const { mapError } = require('../utils/errorMap.js');
+const { mapError } = require('../utils/errorMap.js');
 
-// const error500Message = 'Algo deu errado';
-
-const getAll = async (_req, res) => {
-  try {
-    const users = await usersServices.getAll();
-    return res.status(200).json(users);
-  } catch (e) {
-    console.log(e.message);
-    res.status(500).json({ message: 'Ocorreu um erro' });
-  }
-};
+// const getAll = async (_req, res) => {
+//   try {
+//     const users = await usersServices.getAll();
+//     return res.status(200).json(users);
+//   } catch (e) {
+//     console.log(e.message);
+//     res.status(500).json({ message: 'Ocorreu um erro' });
+//   }
+// };
 
 // const getById = async (req, res) => {
 //   try {
@@ -42,17 +40,19 @@ const getAll = async (_req, res) => {
 //   }
 // };
 
-// const createUser = async (req, res) => {
-//   try {
-//     const { fullName, email } = req.body;
-//     const newUser = await usersServices.createUser(fullName, email);
+const createUser = async (req, res) => {
+  try {
+    const { displayName, email, password, image } = req.body;
+    const newUser = await usersServices.createUser(displayName, email, password, image);
 
-//     return res.status(201).json(newUser);
-//   } catch (e) {
-//     console.log(e.message);
-//     res.status(500).json({ message: error500Message });
-//   }
-// };
+    return res.status(201).json(newUser);
+  } catch (e) {
+    if (e.errors[0].message === 'users.email must be unique') {
+       return res.status(mapError('EMAIL_DUPLICATED')).json({ message: 'User already registered' });
+    }
+    res.status(mapError('BAD')).json({ message: e.errors[0].message });
+  }
+};
 
 // const updateUser = async (req, res) => {
 //   try {
@@ -82,10 +82,10 @@ const getAll = async (_req, res) => {
 // };
 
 module.exports = {
-  getAll,
+  // getAll,
   // getById,
   // getByIdAndEmail,
-  // createUser,
+  createUser,
   // updateUser,
   // deleteUser,
 };
