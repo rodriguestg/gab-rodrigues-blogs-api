@@ -2,15 +2,14 @@ const { usersServices } = require('../services');
 const { mapError } = require('../utils/errorMap.js');
 const { tokenGenerate } = require('../utils/jwt.utils');
 
-// const getAll = async (_req, res) => {
-//   try {
-//     const users = await usersServices.getAll();
-//     return res.status(200).json(users);
-//   } catch (e) {
-//     console.log(e.message);
-//     res.status(500).json({ message: 'Ocorreu um erro' });
-//   }
-// };
+const getAll = async (_req, res) => {
+  try {
+    const users = await usersServices.getAll();
+    return res.status(200).json(users);
+  } catch (e) {
+    res.status(500).json({ message: `Ocorreu um erro: ${e}` });
+  }
+};
 
 // const getById = async (req, res) => {
 //   try {
@@ -84,7 +83,7 @@ const createUser = async (req, res) => {
 // };
 
 module.exports = {
-  // getAll,
+  getAll,
   // getById,
   // getByIdAndEmail,
   createUser,
