@@ -2,10 +2,11 @@ const { postsServices } = require('../services');
 const { mapError } = require('../utils/errorMap.js');
 const idJwtUtils = require('../utils/idJwt.utils');
 
-const getAll = async (_req, res) => {
+const getAll = async (req, res) => {
   try {
-    const users = await postsServices.getAll();
-    return res.status(200).json(users);
+    const token = req.header('Authorization');
+    const posts = await postsServices.getAll(token);
+    return res.status(200).json(posts);
   } catch (e) {
     res.status(500).json({ message: `Ocorreu um erro: ${e}` });
   }

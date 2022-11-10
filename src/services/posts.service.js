@@ -1,13 +1,23 @@
-const { BlogPost, PostCategory, Category } = require('../models');
+const { BlogPost, PostCategory, Category, User } = require('../models');
 const idJwtUtils = require('../utils/idJwt.utils');
 
 const getAll = async () => {
-  // console.log(User);
-  const getUsers = await BlogPost.findAll();
-  const users = getUsers.map((user) => ({
-    id: user.id, displayName: user.displayName, email: user.email, image: user.image }));
-  
-  return users;
+const posts = await BlogPost.findAll({
+  attributes: { exclude: ['userId'] },
+  include: [
+    {
+      model: User,
+      as: 'user',
+      attributes: { exclude: ['password'] },
+    },
+    {
+      model: Category,
+      as: 'categories',
+      through: { attributes: [] },
+    },
+  ],
+});
+  return posts;
 };
 
 const getById = async (id) => {

@@ -12,11 +12,11 @@ router.post(
   postsController.createPost,
 );
 
-// router.get(
-//   '/',
-//   validationJwt,
-//   postsController.getAll,
-// );
+router.get(
+  '/',
+  validationJwt,
+  postsController.getAll,
+);
 
 // router.get(
 //   '/search',
