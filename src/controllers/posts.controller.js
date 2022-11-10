@@ -71,11 +71,14 @@ const createPost = async (req, res) => {
 //   }
 // };
 
-const deleteUser = async (req, res) => {
+const deletePost = async (req, res) => {
   const token = req.header('Authorization');
-  const id = idJwtUtils(token);
+  const idUser = idJwtUtils(token);
+  const { id: idPost } = req.params;
   try {
-    await postsServices.deleteUser(id);
+    const post = await postsServices.deletePost(idPost, idUser);
+    if (!post) return res.status(404).json({ message: 'Post does not exist' });
+    if (post === 'Unauthorized') return res.status(401).json({ message: 'Unauthorized user' });
 
     return res.status(204).end();
   } catch (e) {
@@ -89,5 +92,5 @@ module.exports = {
   // getByIdAndEmail,
   createPost,
   // updateUser,
-  deleteUser,
+  deletePost,
 };

@@ -21,7 +21,7 @@ const posts = await BlogPost.findAll({
 };
 
 const getById = async (id) => {
-  const user = await BlogPost.findOne({ where: { id },
+  const post = await BlogPost.findOne({ where: { id },
     attributes: { exclude: ['userId'] },
     include: [
       {
@@ -36,9 +36,9 @@ const getById = async (id) => {
       },
     ],
   });
-  if (!user) return undefined;
+  if (!post) return undefined;
   
-  return user;
+  return post;
 };
 
 // const getByIdAndEmail = async (id, email) => {
@@ -71,12 +71,19 @@ const createPost = async (title, content, categoryIds, token) => {
 //   return updatedUser;
 // };
 
-const deleteUser = async (id) => {
-  const user = await BlogPost.destroy(
-    { where: { id } },
-  );
+const deletePost = async (idPost, idUser) => {
+  const postSearch = await BlogPost.findOne({ where: { id: idPost } });
+  console.log(idUser);
+  console.log(postSearch);
+  if (!postSearch) return undefined;
+  if (postSearch.userId !== idUser) return 'Unauthorized';
 
-  return user;
+  const post = await BlogPost.destroy(
+    { where: { id: idPost } },
+  );
+  console.log(post);
+
+  return post;
 };
 
 module.exports = {
@@ -85,5 +92,5 @@ module.exports = {
   // getByIdAndEmail,
   createPost,
   // updateUser,
-  deleteUser,
+  deletePost,
 };

@@ -36,10 +36,10 @@ router.get(
 //   postsController.getById,
 // );
 
-// router.delete(
-//   '/:id',
-//   validationJwt,
-//   postsController.deleteUser,
-// );
+router.delete(
+  '/:id',
+  validationJwt,
+  postsController.deletePost,
+);
 
 module.exports = router;
