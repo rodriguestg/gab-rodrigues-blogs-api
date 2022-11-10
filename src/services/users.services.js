@@ -19,26 +19,11 @@ const getById = async (id) => {
   return user;
 };
 
-// const getByIdAndEmail = async (id, email) => {
-//   const user = await User.findOne({ where: { id, email } });
-
-//   return user;
-// };
-
 const createUser = async (displayName, email, password, image) => {
   const newUser = await User.create({ displayName, email, password, image });
 
   return newUser;
 };
-
-// const updateUser = async (id, displayName, email, image) => {
-//   const [updatedUser] = await User.update(
-//     { displayName, email, image },
-//     { where: { id } },
-//   );
-
-//   return updatedUser;
-// };
 
 const deleteUser = async (id) => {
   const user = await User.destroy(
@@ -51,8 +36,6 @@ const deleteUser = async (id) => {
 module.exports = {
   getAll,
   getById,
-  // getByIdAndEmail,
   createUser,
-  // updateUser,
   deleteUser,
 };

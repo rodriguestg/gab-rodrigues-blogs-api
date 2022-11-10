@@ -25,21 +25,6 @@ const getById = async (req, res) => {
   }
 };
 
-// const getByIdAndEmail = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const { email } = req.query;
-//     const user = await usersServices.getByIdAndEmail(id, email);
-  
-//     if (!user) return res.status(404).json({ message: 'Usuário não encontrado' });
-
-//     return res.status(200).json(user);
-//   } catch (e) {
-//     console.log(e.message);
-//     res.status(500).json({ message: error500Message });
-//   }
-// };
-
 const createPost = async (req, res) => {
   try {
     const token = req.header('Authorization');
@@ -90,7 +75,6 @@ const deletePost = async (req, res) => {
 module.exports = {
   getAll,
   getById,
-  // getByIdAndEmail,
   createPost,
   updatePost,
   deletePost,

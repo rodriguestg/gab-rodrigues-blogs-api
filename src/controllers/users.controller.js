@@ -25,21 +25,6 @@ const getById = async (req, res) => {
   }
 };
 
-// const getByIdAndEmail = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const { email } = req.query;
-//     const user = await usersServices.getByIdAndEmail(id, email);
-  
-//     if (!user) return res.status(404).json({ message: 'Usuário não encontrado' });
-
-//     return res.status(200).json(user);
-//   } catch (e) {
-//     console.log(e.message);
-//     res.status(500).json({ message: error500Message });
-//   }
-// };
-
 const createUser = async (req, res) => {
   try {
     const { displayName, email, password, image } = req.body;
@@ -54,21 +39,6 @@ const createUser = async (req, res) => {
     res.status(mapError('BAD')).json({ message: e.errors[0].message });
   }
 };
-
-// const updateUser = async (req, res) => {
-//   try {
-//     const { fullName, email } = req.body;
-//     const { id } = req.params;
-//     const updatedUser = await usersServices.updateUser(id, fullName, email);
-
-//     if (!updatedUser) return res.status(404).json({ message: 'Usuário não encontrado' });
-
-//     return res.status(200).json({ message: 'Usuário atualizado com sucesso!' });    
-//   } catch (e) {
-//     console.log(e.message);
-//     res.status(500).json({ message: error500Message });
-//   }
-// };
 
 const deleteUser = async (req, res) => {
   const token = req.header('Authorization');
@@ -85,8 +55,6 @@ const deleteUser = async (req, res) => {
 module.exports = {
   getAll,
   getById,
-  // getByIdAndEmail,
   createUser,
-  // updateUser,
   deleteUser,
 };
