@@ -24,11 +24,11 @@ router.get(
 //   postsController.deleteUser,
 // );
 
-// router.get(
-//   '/:id',
-//   validationJwt,
-//   postsController.getById,
-// );
+router.get(
+  '/:id',
+  validationJwt,
+  postsController.getById,
+);
 
 // router.put(
 //   '/:id',

@@ -21,11 +21,22 @@ const posts = await BlogPost.findAll({
 };
 
 const getById = async (id) => {
-  const getUser = await BlogPost.findByPk(id);
-  if (!getUser) return undefined;
-    
-  const user = {
-    id: getUser.id, displayName: getUser.displayName, email: getUser.email, image: getUser.image };
+  const user = await BlogPost.findOne({ where: { id },
+    attributes: { exclude: ['userId'] },
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+      {
+        model: Category,
+        as: 'categories',
+        through: { attributes: [] },
+      },
+    ],
+  });
+  if (!user) return undefined;
   
   return user;
 };

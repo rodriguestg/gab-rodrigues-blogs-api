@@ -15,11 +15,11 @@ const getAll = async (req, res) => {
 const getById = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await postsServices.getById(id);
+    const post = await postsServices.getById(id);
   
-    if (!user) return res.status(404).json({ message: 'User does not exist' });
+    if (!post) return res.status(404).json({ message: 'Post does not exist' });
 
-    return res.status(200).json(user);
+    return res.status(200).json(post);
   } catch (e) {
     res.status(500).json({ message: `Ocorreu um erro: ${e}` });
   }
