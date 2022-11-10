@@ -8,21 +8,21 @@ const BlogPost = (sequelize, DataTypes) => {
     },
     title: DataTypes.STRING,
     content: DataTypes.STRING,
-    userId: DataTypes.INTEGER,
+    userId: { type: DataTypes.INTEGER, foreignKey: true },
     published: DataTypes.DATE,
     updated: DataTypes.DATE,
   },
   {
     underscored: true,
-    // timestamps: false
+    // tableName: 'blog_post',
+    timestamps: false
   });
 
   BlogPost.associate = (models) => {
     BlogPost.belongsTo(models.User, {
+      foreignKey: 'userId',
       as: 'users',
-      foreignKey: 'user_id',
     });
-
   };
 
   return BlogPost;
