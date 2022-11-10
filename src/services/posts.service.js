@@ -22,7 +22,6 @@ const posts = await BlogPost.findAll({
 
 const getById = async (id) => {
   const post = await BlogPost.findOne({ where: { id },
-    attributes: { exclude: ['userId'] },
     include: [
       {
         model: User,
@@ -41,12 +40,6 @@ const getById = async (id) => {
   return post;
 };
 
-// const getByIdAndEmail = async (id, email) => {
-//   const user = await User.findOne({ where: { id, email } });
-
-//   return user;
-// };
-
 const createPost = async (title, content, categoryIds, token) => {
   const userId = idJwtUtils(token);
   const newPost = await BlogPost.create({ title, content, userId });
@@ -62,26 +55,25 @@ const createPost = async (title, content, categoryIds, token) => {
   return newPost;
 };
 
-// const updateUser = async (id, displayName, email, image) => {
-//   const [updatedUser] = await User.update(
-//     { displayName, email, image },
-//     { where: { id } },
-//   );
-
-//   return updatedUser;
-// };
+const updatePost = async (id, title, content, idUser) => {
+  await BlogPost.update(
+    { title, content },
+    { where: { id } },
+  );
+  const post = await getById(id);
+  if (post.dataValues.user_id !== idUser) return undefined;
+  return post.dataValues;
+};
 
 const deletePost = async (idPost, idUser) => {
   const postSearch = await BlogPost.findOne({ where: { id: idPost } });
-  console.log(idUser);
-  console.log(postSearch);
+
   if (!postSearch) return undefined;
   if (postSearch.userId !== idUser) return 'Unauthorized';
 
   const post = await BlogPost.destroy(
     { where: { id: idPost } },
   );
-  console.log(post);
 
   return post;
 };
@@ -89,8 +81,7 @@ const deletePost = async (idPost, idUser) => {
 module.exports = {
   getAll,
   getById,
-  // getByIdAndEmail,
   createPost,
-  // updateUser,
+  updatePost,
   deletePost,
 };

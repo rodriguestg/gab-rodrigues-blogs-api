@@ -56,20 +56,21 @@ const createPost = async (req, res) => {
   }
 };
 
-// const updateUser = async (req, res) => {
-//   try {
-//     const { fullName, email } = req.body;
-//     const { id } = req.params;
-//     const updatedUser = await usersServices.updateUser(id, fullName, email);
+const updatePost = async (req, res) => {
+  try {
+    const token = req.header('Authorization');
+    const idUser = idJwtUtils(token);
+    const { title, content } = req.body;
+    const { id } = req.params;
+    const updatedPost = await postsServices.updatePost(id, title, content, idUser);
+    if (!updatedPost) return res.status(401).json({ message: 'Unauthorized user' });
 
-//     if (!updatedUser) return res.status(404).json({ message: 'Usuário não encontrado' });
-
-//     return res.status(200).json({ message: 'Usuário atualizado com sucesso!' });    
-//   } catch (e) {
-//     console.log(e.message);
-//     res.status(500).json({ message: error500Message });
-//   }
-// };
+    return res.status(200).json(updatedPost);    
+  } catch (e) {
+    console.log(e.message);
+    res.status(500).json({ message: e });
+  }
+};
 
 const deletePost = async (req, res) => {
   const token = req.header('Authorization');
@@ -91,6 +92,6 @@ module.exports = {
   getById,
   // getByIdAndEmail,
   createPost,
-  // updateUser,
+  updatePost,
   deletePost,
 };

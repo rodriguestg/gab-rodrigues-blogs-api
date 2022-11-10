@@ -1,6 +1,7 @@
 const express = require('express');
 const postsController = require('../controllers/posts.controller');
 const { validationPost } = require('../controllers/middlewares/validationPost.middleware');
+const { validationsUpPost } = require('../controllers/middlewares/validationsUpPost.middleware');
 const validationJwt = require('../controllers/middlewares/validationJwt.middleware');
 
 const router = express.Router();
@@ -30,11 +31,12 @@ router.get(
   postsController.getById,
 );
 
-// router.put(
-//   '/:id',
-//   validationJwt,
-//   postsController.getById,
-// );
+router.put(
+  '/:id',
+  validationJwt,
+  validationsUpPost,
+  postsController.updatePost,
+);
 
 router.delete(
   '/:id',
